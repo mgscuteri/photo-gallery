@@ -4,6 +4,7 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc -p tsconfig.json",
+    "esbuild": "./node_modules/.bin/esbuild src/index.ts --bundle --platform=node --outfile=build/server.js",
     "start:local": "nodemon --watch",
     "start": "node ./build/index.js",
     "test": "ts-node routes/files/files.test.ts"
@@ -22,6 +23,7 @@
     "jpg-stream": "^1.1.2",
     "npm": "^10.8.3",
     "ts-node": "^10.9.2",
+    "tslib": "^2.7.0",
     "typescript": "^5.5.4"
   },
   "devDependencies": {
@@ -30,6 +32,7 @@
     "@types/jest": "^29.5.12",
     "@types/node": "^22.5.2",
     "axios": "^1.7.7",
+    "esbuild": "0.23.1",
     "node-fetch": "^3.3.2",
     "nodemon": "^3.1.4",
     "ts-jest": "^29.2.5"

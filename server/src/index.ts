@@ -5,13 +5,19 @@ import { filesRoutes } from "./routes/files/files";
 import { fastifyStatic } from "@fastify/static";
 
 const server = fastify();
-server.register(fastifyStatic, {
-  root: path.resolve(process.cwd(), "..", "..", "albums"),
-  prefix: "/albums/",
-});
+// export const staticAlbumDir = path.join(__dirname, "..", "albums");
+// console.log(`root static dir: ${staticAlbumDir}`);
+// if (!fs.existsSync(staticAlbumDir)) {
+//   throw "dir does not exist";
+// }
+
+// server.register(fastifyStatic, {
+//   root: staticAlbumDir,
+//   prefix: "/albums/",
+// });
 server.register(filesRoutes);
 
-server.listen({ port: 8080 }, (err, address) => {
+server.listen({ port: 80, host: "0.0.0.0" }, (err, address) => {
   if (err) {
     console.error(err);
     process.exit(1);
