@@ -5,7 +5,10 @@ import {
 } from "fastify";
 import fs from "fs";
 import path from "path";
+import { FileService } from "../../services/fileService";
 var JPEGDecoder = require("jpg-stream/decoder");
+
+export const ALBUMS_DIR = "ALBUMS_DIR";
 
 export const filesRoutes = (
   fastify: FastifyInstance,
@@ -14,7 +17,24 @@ export const filesRoutes = (
 ) => {
   fastify.get("/albums", getAlbums);
   fastify.get("/albums/:albumName", getAlbumFiles);
+  fastify.get("/test", getTest);
   done();
+};
+
+const getTest: RouteShorthandOptionsWithHandler = {
+  schema: {
+    response: {
+      200: {
+        type: "object",
+        properties: {
+          test: { type: "string" },
+        },
+      },
+    },
+  },
+  handler: async (req, reply) => {
+    reply.send({ test: FileService.getAlbumLocation() ?? "ahh" });
+  },
 };
 
 const getAlbums: RouteShorthandOptionsWithHandler = {
@@ -33,7 +53,7 @@ const getAlbums: RouteShorthandOptionsWithHandler = {
     },
   },
   handler: (req, reply) => {
-    const albumsDir = path.resolve(process.cwd(), "..", "albums");
+    const albumsDir = FileService.getAlbumLocation();
     const albumNames = fs.readdirSync(albumsDir, {
       recursive: false,
       encoding: null,
@@ -73,7 +93,7 @@ const getAlbumFiles: RouteShorthandOptionsWithHandler = {
   },
   handler: async (req, reply) => {
     const albumName = (req.params as any).albumName as string;
-    const albumsDir = path.resolve(process.cwd(), "..", "albums");
+    const albumsDir = FileService.getAlbumLocation();
     const albumPath = path.resolve(albumsDir, albumName);
     const files = fs.readdirSync(albumPath);
     const filesWithExif: FileNameWithExif[] = [];
