@@ -5,7 +5,22 @@ import fs from "fs";
 import path from "path";
 import { FileService } from "./services/fileService";
 
-const server = fastify();
+const isHttps =
+  fs.existsSync("./server.key") && fs.existsSync("./thetoaster_ddns_net.pem");
+
+const port = isHttps ? 443 : 80;
+
+const server = fastify({
+  ...(isHttps
+    ? {
+        https: {
+          key: fs.readFileSync("./server.key"),
+          cert: fs.readFileSync("./thetoaster_ddns_net.pem"),
+        },
+      }
+    : null),
+});
+
 server.addHook("onSend", async function (request, reply) {
   reply.headers({
     "Access-Control-Allow-Origin": "*",
@@ -24,7 +39,7 @@ server.setNotFoundHandler((req, reply) => {
   reply.send(stream);
 });
 
-server.listen({ port: 80, host: "0.0.0.0" }, (err, address) => {
+server.listen({ port: port, host: "0.0.0.0" }, (err, address) => {
   if (err) {
     console.error(err);
   }

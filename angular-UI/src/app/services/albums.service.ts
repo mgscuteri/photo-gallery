@@ -45,12 +45,12 @@ export class AlbumsService {
   }
 
   private getAlbums(): Observable<Album[]> {
-    return this.http.get<Album[]>('http://thetoaster.ddns.net/albums');
+    return this.http.get<Album[]>('https://thetoaster.ddns.net/albums');
   }
 
   private getPhotos(alumbId: string): Observable<PhotoMetadata[]> {
     return this.http.get<PhotoMetadata[]>(
-      `http://thetoaster.ddns.net/albums/${alumbId}`
+      `https://thetoaster.ddns.net/albums/${alumbId}`
     );
   }
 }
