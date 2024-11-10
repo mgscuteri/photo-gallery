@@ -1,23 +1,24 @@
-import fastify from "fastify";
+// https://medium.com/medialesson/hosting-an-angular-application-with-express-31237756722f
+
+import express, { Request, Response } from "express";
 import path from "path";
-import fs from "fs";
-import fastifyStatic from "@fastify/static";
 
-const server = fastify();
+const port = 80;
 
-export const relativePathToBuild = "/browser";
-export const fullPathToBuild = path.join(__dirname, relativePathToBuild);
+const app = express();
 
-console.log("serving content in: " + fullPathToBuild);
+const pathToBrowserfolder = path.join(__dirname, "browser");
+const pathToIndexHtml = path.join(pathToBrowserfolder, "index.html");
+console.log("Serving: " + pathToBrowserfolder);
 
-server.register(fastifyStatic, {
-  root: fullPathToBuild,
-  //prefix: "/static-ui/",
+// Serve the known static content
+app.use(express.static(pathToBrowserfolder, {}));
+
+// Return index.html for any unknown request
+app.use("*", (_req: Request, res: Response) => {
+  res.sendFile(pathToIndexHtml);
 });
 
-server.listen({ port: 80, host: "0.0.0.0" }, (err, address) => {
-  if (err) {
-    console.error(err);
-  }
-  console.log(`UI server listening at ${address}`);
+app.listen(port, () => {
+  console.log(`Server listening on port: ${port}`);
 });

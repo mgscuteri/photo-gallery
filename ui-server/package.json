@@ -18,6 +18,7 @@
     "@types/exif-reader": "^1.0.0",
     "concat-frames": "^1.0.3",
     "exif-reader": "^2.0.1",
+    "express": "^4.21.1",
     "fastify": "^4.28.1",
     "install": "^0.13.0",
     "jpg-stream": "^1.1.2",
