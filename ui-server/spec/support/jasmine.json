@@ -1,8 +1,0 @@
-{
-  "spec_dir": "routes",
-  "spec_files": ["**/*[sS]pec.?(m)ts"],
-  "env": {
-    "stopSpecOnExpectationFailure": false,
-    "random": true
-  }
-}

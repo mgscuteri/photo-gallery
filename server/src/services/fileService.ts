@@ -19,15 +19,10 @@ export class FileService {
   }
 
   public static getStaticUILocation() {
-    return path.resolve(
-      process.argv[1].replace("/src/", "").replace("/build/", ""),
-      "..",
-      "static-ui"
-    );
-    // if (!process.env[ALBUMS_DIR]) {
-    //   return path.resolve(process.cwd(), "..", "albums");
-    // } else {
-    //   return process.env[ALBUMS_DIR];
-    // }
+    return path.join(__dirname, "browser");
+  }
+
+  public static getIndexHtmlLocation() {
+    return path.join(this.getStaticUILocation(), "index.html");
   }
 }

@@ -4,9 +4,10 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "esbuild": "./node_modules/.bin/esbuild src/index.ts --bundle --platform=node --outfile=build/ui-server.js",
+    "esbuild": "./node_modules/.bin/esbuild src/index.ts --bundle --platform=node --outfile=build/server.js",
     "start:local": "nodemon --watch",
-    "start": "node ./build/index.js"
+    "start": "node ./build/index.js",
+    "test": "ts-node routes/files/files.test.ts"
   },
   "keywords": [],
   "author": "",
@@ -21,6 +22,7 @@
     "fastify": "^4.28.1",
     "install": "^0.13.0",
     "jpg-stream": "^1.1.2",
+    "mime-types": "^2.1.35",
     "npm": "^10.8.3",
     "ts-node": "^10.9.2",
     "tslib": "^2.7.0",
@@ -30,6 +32,7 @@
     "@tsconfig/node-lts-strictest-esm": "^18.12.1",
     "@types/jasmine": "^5.1.4",
     "@types/jest": "^29.5.12",
+    "@types/mime-types": "^2.1.4",
     "@types/node": "^22.5.2",
     "axios": "^1.7.7",
     "esbuild": "0.23.1",

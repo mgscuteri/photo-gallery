@@ -12,6 +12,6 @@ export class ImageComponent {
   imageName = input.required<string>();
 
   fullSrc = computed(() => {
-    return `http://thetoaster.ddns.net:81/albums/${this.albumName()}/${this.imageName()}`;
+    return `http://thetoaster.ddns.net/albums/${this.albumName()}/${this.imageName()}`;
   });
 }
