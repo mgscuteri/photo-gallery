@@ -1,0 +1,6 @@
+@for (photo of photos(); track photo) {
+<app-image
+  [albumName]="albumName() || ''"
+  [imageName]="photo.fileName"
+></app-image>
+}
