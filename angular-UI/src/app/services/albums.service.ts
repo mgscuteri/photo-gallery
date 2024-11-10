@@ -40,7 +40,7 @@ export class AlbumsService {
     });
   }
 
-  setActiveAlbum(album: string) {
+  setActiveAlbum(album: string | undefined) {
     this._activeAlbum$.next(album);
   }
 

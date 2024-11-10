@@ -1,3 +1,4 @@
+import { IMAGE_CONFIG } from '@angular/common';
 import { Component, computed, input } from '@angular/core';
 
 @Component({

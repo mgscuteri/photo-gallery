@@ -16,5 +16,10 @@ export class AlbumSelectorComponent {
 
   selectAlbum(albumName: string) {
     this.albumsService.setActiveAlbum(albumName);
+    history.pushState(
+      { albumName },
+      albumName,
+      window.location.href + albumName
+    );
   }
 }

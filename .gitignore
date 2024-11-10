@@ -4,3 +4,4 @@ node_modules
 server.csr
 server.key
 thetoaster_ddns_net.pem
+ssh.sh
