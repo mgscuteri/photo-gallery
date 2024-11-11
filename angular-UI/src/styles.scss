@@ -1,1 +1,40 @@
 /* You can add global styles to this file, and also import other style files */
+html,
+body,
+form,
+fieldset,
+table,
+tr,
+td,
+img {
+  margin: 0;
+  padding: 0;
+  font: 100%/150% courier, calibri, helvetica, sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  padding-left: 4px;
+  padding-right: 4px;
+  margin: unset;
+}
+
+input,
+button,
+select,
+textarea,
+optgroup,
+option {
+  font-family: inherit;
+  font-size: inherit;
+  font-style: inherit;
+  font-weight: inherit;
+}
+
+/* rest of your styles; like: */
+body {
+  font-size: 0.875em;
+}

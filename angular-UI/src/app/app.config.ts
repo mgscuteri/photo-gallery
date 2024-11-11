@@ -14,6 +14,6 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection(),
     provideRouter(routes),
     provideHttpClient(),
-    { provide: APP_BASE_HREF, useValue: '/static' },
+    { provide: APP_BASE_HREF, useValue: '' },
   ],
 };

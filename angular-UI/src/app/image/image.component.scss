@@ -1,4 +1,17 @@
 .image-container {
-  max-width: 95%;
+  :hover {
+    cursor: pointer;
+  }
+}
+
+.fullscreen {
+  position: absolute;
+  left: 0;
+  width: auto;
+  height: 100vh;
+}
+
+.image {
   height: auto;
+  width: 100%;
 }

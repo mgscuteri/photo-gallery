@@ -1,7 +1,8 @@
-import { Component, computed, input } from '@angular/core';
+import { Component, computed, input, OnInit } from '@angular/core';
 import { ImageComponent } from '../image/image.component';
 import { AlbumsService, PhotoMetadata } from '../services/albums.service';
 import { CommonModule } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-album',
@@ -11,8 +12,11 @@ import { CommonModule } from '@angular/common';
   templateUrl: './album.component.html',
   styleUrl: './album.component.scss',
 })
-export class AlbumComponent {
-  constructor(public albumsService: AlbumsService) {}
-  photos = input.required<PhotoMetadata[] | undefined>();
-  albumName = input.required<string>();
+export class AlbumComponent implements OnInit {
+  constructor(
+    private route: ActivatedRoute,
+    public albumsService: AlbumsService
+  ) {}
+
+  ngOnInit() {}
 }

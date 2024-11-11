@@ -1,16 +1,11 @@
-@if(!albumsService.activeAlbumSig()) { @for (album of albumsService.albumsSig();
-track album) {
-<div (click)="selectAlbum(album.albumName)">
-  <p>{{ album.albumName }}</p>
-  <app-image
-    [albumName]="album.albumName"
-    [imageName]="album.thumbNail"
-  ></app-image>
+@for (album of albumsService.albumsSig(); track album) {
+<div class="album-selector-container" (click)="selectAlbum(album.albumName)">
+  <div class="album-selector-contents">
+    <h2>{{ album.albumName }}</h2>
+    <app-image
+      [albumName]="album.albumName"
+      [imageName]="album.thumbNail"
+    ></app-image>
+  </div>
 </div>
-
-} } @else {
-<app-album
-  [photos]="albumsService.photosSig()"
-  [albumName]="albumsService.activeAlbumSig() || ''"
-></app-album>
 }

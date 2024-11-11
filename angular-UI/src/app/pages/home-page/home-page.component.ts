@@ -5,7 +5,7 @@ import { AlbumSelectorComponent } from '../../album-selector/album-selector.comp
 @Component({
   selector: 'app-home-page',
   standalone: true,
-  imports: [ImageComponent, AlbumSelectorComponent],
+  imports: [AlbumSelectorComponent],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.scss',
 })

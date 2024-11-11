@@ -1,25 +1,30 @@
-import { Component, computed, Signal } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AlbumsService } from '../services/albums.service';
 import { ImageComponent } from '../image/image.component';
 import { AlbumComponent } from '../album/album.component';
+import { Router } from '@angular/router';
+import { GlobalContainerComponent } from '../global-container/global-container.component';
 
 @Component({
   selector: 'app-album-selector',
   standalone: true,
-  imports: [ImageComponent, AlbumComponent],
-  providers: [AlbumsService],
+  imports: [ImageComponent],
+  providers: [AlbumsService, GlobalContainerComponent],
   templateUrl: './album-selector.component.html',
   styleUrl: './album-selector.component.scss',
 })
-export class AlbumSelectorComponent {
-  constructor(public albumsService: AlbumsService) {}
+export class AlbumSelectorComponent implements OnInit {
+  constructor(public albumsService: AlbumsService, private router: Router) {}
+
+  ngOnInit(): void {
+    const event = new CustomEvent('album', {
+      detail: { album: undefined },
+    });
+    document.dispatchEvent(event);
+    return undefined;
+  }
 
   selectAlbum(albumName: string) {
-    this.albumsService.setActiveAlbum(albumName);
-    history.pushState(
-      { albumName },
-      albumName,
-      window.location.href + albumName
-    );
+    this.router.navigate(['album', albumName]);
   }
 }

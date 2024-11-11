@@ -1,0 +1,18 @@
+.global-container {
+  width: 95%;
+  display: "flex";
+  justify-content: center;
+  background-color: greenyellow;
+}
+
+.parent {
+  width: 100%;
+  background-color: blue;
+  display: flex;
+  justify-content: center;
+}
+
+.header {
+  margin-top: 10px;
+  margin-bottom: 20px;
+}

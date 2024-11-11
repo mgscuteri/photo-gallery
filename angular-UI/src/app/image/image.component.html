@@ -1,3 +1,9 @@
 @let src = fullSrc(); @if(src) {
-<img class="image-container" [src]="src" />
+<div
+  class="image-container"
+  [ngClass]="{ fullscreen: isFullScreen() }"
+  (click)="click()"
+>
+  <img class="image" [src]="src" priority="low" loading="lazy" />
+</div>
 }

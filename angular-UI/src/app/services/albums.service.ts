@@ -1,21 +1,14 @@
 import { HttpClient } from '@angular/common/http';
-import { ChangeDetectorRef, effect, Injectable, Signal } from '@angular/core';
+import { Injectable, Signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import {
-  BehaviorSubject,
-  catchError,
-  filter,
-  map,
-  Observable,
-  of,
-  switchMap,
-} from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+import { filter, map, Observable, switchMap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AlbumsService {
-  private _activeAlbum$: BehaviorSubject<string | undefined>;
+  public _activeAlbum$: Observable<string | undefined>;
   public _photos$: Observable<PhotoMetadata[] | undefined>;
   public _albums$: Observable<Album[] | undefined>;
 
@@ -23,9 +16,26 @@ export class AlbumsService {
   public albumsSig: Signal<Album[] | undefined>;
   public activeAlbumSig: Signal<string | undefined>;
 
-  constructor(private http: HttpClient, cdr: ChangeDetectorRef) {
+  constructor(private http: HttpClient, private route: ActivatedRoute) {
     this._albums$ = this.getAlbums();
-    this._activeAlbum$ = new BehaviorSubject<string | undefined>(undefined);
+    this._activeAlbum$ = this.route.url.pipe(
+      map((urlSegments) => {
+        if (urlSegments[0].path === 'album') {
+          // terrible hack because injecting _activeAlbum into global header does not work
+          const event = new CustomEvent('album', {
+            detail: { album: urlSegments[1].path },
+          });
+          document.dispatchEvent(event);
+          return urlSegments[1].path;
+        }
+        const event = new CustomEvent('album', {
+          detail: { album: undefined },
+        });
+        document.dispatchEvent(event);
+        return undefined;
+      })
+    );
+
     this._photos$ = this._activeAlbum$.pipe(
       filter((activeAlb) => activeAlb !== undefined),
       switchMap((activeAlb) => this.getPhotos(activeAlb))
@@ -33,15 +43,6 @@ export class AlbumsService {
     this.photosSig = toSignal(this._photos$);
     this.albumsSig = toSignal(this._albums$);
     this.activeAlbumSig = toSignal(this._activeAlbum$);
-
-    effect(() => {
-      console.log(this.photosSig());
-      cdr.detectChanges();
-    });
-  }
-
-  setActiveAlbum(album: string | undefined) {
-    this._activeAlbum$.next(album);
   }
 
   private getAlbums(): Observable<Album[]> {

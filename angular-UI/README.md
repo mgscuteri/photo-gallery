@@ -1,27 +1,11 @@
-# PhotoLib
+TODO:
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.2.
+- Fix crazy memory error below
+- Make fewer image requests
+- Cache images on client browser
+- Create low res placeholder images at build time?
+- Paginate images
+- Loading spinners
+- Do not dispatch http call for image until its div is nearly in viewport
 
-## Development server
-
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+abort("Cannot enlarge memory arrays. Either (1) compile with -s TOTAL_MEMORY=X with X higher than the current value 67108864, (2) compile with -s ALLOW_MEMORY_GROWTH=1 which allows increasing the size at runtime but prevents some optimizations, (3) set Module.TOTAL_MEMORY to a higher value before the program runs, or (4) if you want malloc to return NULL (0) instead of this abort, compile with -s ABORTING_MALLOC=0 ")
