@@ -1,9 +1,28 @@
-@let src = fullSrc(); @if(src) {
+@let _fullSrc = fullSrc(); @let _isLoading = isLoading(); @if(_fullSrc) {
 <div
   class="image-container"
   [ngClass]="{ fullscreen: isFullScreen() }"
   (click)="click()"
 >
-  <img class="image" [src]="src" priority="low" loading="lazy" />
+  @if(_isLoading) {
+  <div class="placeholder">
+    <!-- <ngx-spinner
+      bdColor="rgba(0, 0, 0, 0.8)"
+      size="medium"
+      color="#fff"
+      type="cube-transition"
+      [fullScreen]="false"
+    ></ngx-spinner> -->
+  </div>
+  }
+
+  <img
+    class="image"
+    [src]="fullSrc()"
+    priority="low"
+    loading="lazy"
+    (load)="onLoad()"
+  />
 </div>
+
 }

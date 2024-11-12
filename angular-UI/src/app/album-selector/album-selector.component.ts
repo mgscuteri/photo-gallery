@@ -7,24 +7,19 @@ import { GlobalContainerComponent } from '../global-container/global-container.c
 
 @Component({
   selector: 'app-album-selector',
-  standalone: true,
-  imports: [ImageComponent],
-  providers: [AlbumsService, GlobalContainerComponent],
   templateUrl: './album-selector.component.html',
   styleUrl: './album-selector.component.scss',
 })
 export class AlbumSelectorComponent implements OnInit {
-  constructor(public albumsService: AlbumsService, private router: Router) {}
+  constructor(public albumsService: AlbumsService) {}
 
   ngOnInit(): void {
-    const event = new CustomEvent('album', {
-      detail: { album: undefined },
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
     });
-    document.dispatchEvent(event);
-    return undefined;
   }
-
-  selectAlbum(albumName: string) {
-    this.router.navigate(['album', albumName]);
+  selectAlbum(alb: string) {
+    this.albumsService.selectAlbum(alb);
   }
 }

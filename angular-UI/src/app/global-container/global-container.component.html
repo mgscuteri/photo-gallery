@@ -1,9 +1,22 @@
-<div class="parent">
-  <div class="global-container">
-    <div class="header">
-      <h1 [innerText]="title()"></h1>
-    </div>
+@let titletemp = title(); @let _back = back();
 
-    <ng-content></ng-content>
+<div class="parent">
+  <div class="vertical">
+    <div class="global-container">
+      <div class="wide">
+        <div class="header">
+          <h1 [innerText]="titletemp"></h1>
+        </div>
+
+        <ng-content class="wide"></ng-content>
+      </div>
+    </div>
+    <div class="footer" [ngClass]="{ cursor: !!_back }">
+      @if(!_back) {
+      <p>Albums by Mike</p>
+      } @if(_back) {
+      <p (click)="onBack()">{{ _back }}</p>
+      }
+    </div>
   </div>
 </div>

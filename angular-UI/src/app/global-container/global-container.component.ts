@@ -1,42 +1,33 @@
 import {
   Component,
   computed,
-  effect,
-  signal,
   Signal,
+  signal,
   WritableSignal,
 } from '@angular/core';
 import { AlbumsService } from '../services/albums.service';
-import { ActivatedRoute, Params, UrlSegment } from '@angular/router';
-import { map, Observable } from 'rxjs';
-import { CommonModule } from '@angular/common';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-global-container',
-  standalone: true,
-  imports: [CommonModule],
-  providers: [AlbumsService],
   templateUrl: './global-container.component.html',
   styleUrl: './global-container.component.scss',
 })
 export class GlobalContainerComponent {
-  activeAlbum: WritableSignal<string | undefined> = signal(undefined);
   title = computed(() => {
-    return this.activeAlbum() ?? 'Albums';
+    return this.albumsService.activeAlbumSig() ?? 'Albums';
+  });
+
+  back = computed(() => {
+    return this.albumsService.activeAlbumSig() ? 'Back to Albums' : null;
   });
 
   constructor(
     private route: ActivatedRoute,
     public albumsService: AlbumsService
-  ) {
-    document.addEventListener(
-      'album',
-      (e) => {
-        const event = e as CustomEvent;
-        this.activeAlbum.set(event.detail.album);
-      },
-      false
-    );
+  ) {}
+
+  onBack() {
+    this.albumsService.selectAlbum(undefined);
   }
 }

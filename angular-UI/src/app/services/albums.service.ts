@@ -1,48 +1,30 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, Signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { ActivatedRoute } from '@angular/router';
-import { filter, map, Observable, switchMap } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
+import { BehaviorSubject, mergeMap, Observable, of } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class AlbumsService {
-  public _activeAlbum$: Observable<string | undefined>;
-  public _photos$: Observable<PhotoMetadata[] | undefined>;
-  public _albums$: Observable<Album[] | undefined>;
-
+  private _photos$: Observable<PhotoMetadata[] | undefined>;
   public photosSig: Signal<PhotoMetadata[] | undefined>;
   public albumsSig: Signal<Album[] | undefined>;
+  public activeAlbum$: BehaviorSubject<string | undefined>;
   public activeAlbumSig: Signal<string | undefined>;
 
-  constructor(private http: HttpClient, private route: ActivatedRoute) {
-    this._albums$ = this.getAlbums();
-    this._activeAlbum$ = this.route.url.pipe(
-      map((urlSegments) => {
-        if (urlSegments[0].path === 'album') {
-          // terrible hack because injecting _activeAlbum into global header does not work
-          const event = new CustomEvent('album', {
-            detail: { album: urlSegments[1].path },
-          });
-          document.dispatchEvent(event);
-          return urlSegments[1].path;
+  constructor(private http: HttpClient, private router: Router) {
+    this.activeAlbum$ = new BehaviorSubject<string | undefined>(undefined);
+    this._photos$ = this.activeAlbum$.pipe(
+      mergeMap((alb) => {
+        if (alb === undefined) {
+          return of(undefined);
         }
-        const event = new CustomEvent('album', {
-          detail: { album: undefined },
-        });
-        document.dispatchEvent(event);
-        return undefined;
+        return this.getPhotos(alb);
       })
     );
-
-    this._photos$ = this._activeAlbum$.pipe(
-      filter((activeAlb) => activeAlb !== undefined),
-      switchMap((activeAlb) => this.getPhotos(activeAlb))
-    );
+    this.albumsSig = toSignal(this.getAlbums());
     this.photosSig = toSignal(this._photos$);
-    this.albumsSig = toSignal(this._albums$);
-    this.activeAlbumSig = toSignal(this._activeAlbum$);
+    this.activeAlbumSig = toSignal(this.activeAlbum$);
   }
 
   private getAlbums(): Observable<Album[]> {
@@ -53,6 +35,18 @@ export class AlbumsService {
     return this.http.get<PhotoMetadata[]>(
       `https://thetoaster.ddns.net/albums/${alumbId}`
     );
+  }
+
+  public selectAlbum(albumName: string | undefined) {
+    if (albumName === undefined) {
+      this.router.navigate(['/']);
+      return;
+    }
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+    this.router.navigate(['album', albumName]);
   }
 }
 

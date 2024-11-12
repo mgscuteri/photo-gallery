@@ -1,12 +1,21 @@
 .global-container {
   width: 95%;
-  display: "flex";
+  min-height: 100vh;
+  display: flex;
   justify-content: center;
   background-color: greenyellow;
 }
 
+.vertical {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .parent {
   width: 100%;
+  min-height: 100vh;
   background-color: blue;
   display: flex;
   justify-content: center;
@@ -15,4 +24,20 @@
 .header {
   margin-top: 10px;
   margin-bottom: 20px;
+}
+
+.footer {
+  text-align: center;
+  bottom: 0;
+  height: 60px;
+  width: 100%;
+  background-color: cadetblue;
+}
+
+.cursor {
+  cursor: pointer;
+}
+
+.wide {
+  width: 100%;
 }
