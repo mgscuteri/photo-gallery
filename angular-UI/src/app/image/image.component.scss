@@ -16,8 +16,31 @@
   width: 100%;
 }
 
-.placeholder {
+.temp {
+  color: blue;
   width: 100%;
-  padding-top: 66.6%;
-  background-color: orange;
+  text-align: center;
+}
+
+.placeholder {
+  //width: 100%;
+  padding-top: 66.6%; // normal aspect ratio
+  align-content: center;
+  background-color: aliceblue;
+  border-radius: 20px;
+  margin-left: 20px;
+  margin-right: 20px;
+  filter: drop-shadow(16px 16px 10px black);
+}
+
+.negMargin {
+  margin-top: -42%;
+}
+
+.blur {
+  filter: blur(4px);
+}
+
+.none {
+  display: none;
 }

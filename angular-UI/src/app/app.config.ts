@@ -11,14 +11,13 @@ import { HttpClient, provideHttpClient } from '@angular/common/http';
 import { APP_BASE_HREF } from '@angular/common';
 import { AlbumsService } from './services/albums.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgxSpinnerModule } from 'ngx-spinner';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection(),
     provideRouter(routes),
     provideHttpClient(),
-    importProvidersFrom([BrowserAnimationsModule, NgxSpinnerModule]),
+    importProvidersFrom([BrowserAnimationsModule]),
     { provide: APP_BASE_HREF, useValue: '' },
   ],
 };

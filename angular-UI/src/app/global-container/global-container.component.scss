@@ -3,7 +3,7 @@
   min-height: 100vh;
   display: flex;
   justify-content: center;
-  background-color: greenyellow;
+  background-color: black;
 }
 
 .vertical {
@@ -16,7 +16,7 @@
 .parent {
   width: 100%;
   min-height: 100vh;
-  background-color: blue;
+  background-color: black;
   display: flex;
   justify-content: center;
 }
@@ -31,7 +31,7 @@
   bottom: 0;
   height: 60px;
   width: 100%;
-  background-color: cadetblue;
+  background-color: dimgray;
 }
 
 .cursor {

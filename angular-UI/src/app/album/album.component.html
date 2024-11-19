@@ -1,9 +1,11 @@
 @for (photo of albumsService.photosSig(); track photo) {
 <div class="album-container">
-  <app-image
-    [albumName]="albumsService.activeAlbumSig() || ''"
-    [imageName]="photo.fileName"
-    [clickFullScreen]="true"
-  ></app-image>
+  <div class="image-container">
+    <app-image
+      [albumName]="albumsService.activeAlbumSig() || ''"
+      [imageName]="photo.fileName"
+      [clickFullScreen]="true"
+    ></app-image>
+  </div>
 </div>
 }

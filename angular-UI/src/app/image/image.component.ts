@@ -1,40 +1,46 @@
 import {
+  AfterViewInit,
   Component,
   computed,
+  ElementRef,
+  HostListener,
   input,
   OnInit,
   signal,
+  ViewChild,
   WritableSignal,
 } from '@angular/core';
-import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-image',
   templateUrl: './image.component.html',
   styleUrl: './image.component.scss',
 })
-export class ImageComponent implements OnInit {
+export class ImageComponent implements AfterViewInit {
   albumName = input.required<string>();
   imageName = input.required<string>();
   clickFullScreen = input<boolean>();
 
   isFullScreen: WritableSignal<boolean> = signal(false);
 
-  public isLoading: WritableSignal<boolean> = signal(true);
+  public hasLoaded: WritableSignal<boolean> = signal(false);
+  public hasLoadingStarted: WritableSignal<boolean> = signal(false);
 
-  constructor(private spinner: NgxSpinnerService) {}
+  @ViewChild('imageContainer', { static: false })
+  private image!: ElementRef<HTMLDivElement>;
 
-  ngOnInit(): void {
-    this.spinner.show();
+  ngAfterViewInit(): void {
+    this.onScroll();
   }
+
+  constructor() {}
 
   fullSrc = computed(() => {
     return `https://thetoaster.ddns.net/albums/${this.albumName()}/${this.imageName()}`;
   });
 
   onLoad() {
-    this.spinner.hide();
-    this.isLoading.set(false);
+    this.hasLoaded.set(true);
   }
 
   click() {
@@ -43,5 +49,17 @@ export class ImageComponent implements OnInit {
     }
 
     this.isFullScreen.set(!this.isFullScreen());
+  }
+
+  @HostListener('window:scroll', ['$event'])
+  onScroll() {
+    if (this.image) {
+      const rect = this.image.nativeElement.getBoundingClientRect();
+      const inViewport = rect.top <= window.scrollY + window.innerHeight; // math huh?
+      if (inViewport && !this.hasLoadingStarted()) {
+        console.log('shown ' + this.albumName());
+        this.hasLoadingStarted.set(true);
+      }
+    }
   }
 }
